@@ -39,10 +39,6 @@ static bool S_can_contain(cmark_node *node, cmark_node *child) {
     }
   }
 
-  if (child->type == CMARK_NODE_DOCUMENT) {
-    return false;
-  }
-
   switch (node->type) {
   case CMARK_NODE_DOCUMENT:
   case CMARK_NODE_BLOCK_QUOTE:

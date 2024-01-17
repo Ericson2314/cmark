@@ -456,6 +456,7 @@ void hierarchy(test_batch_runner *runner) {
 
   int list_item_flag = 1 << CMARK_NODE_ITEM;
   int top_level_blocks =
+      (1 << CMARK_NODE_DOCUMENT) |
       (1 << CMARK_NODE_BLOCK_QUOTE) | (1 << CMARK_NODE_LIST) |
       (1 << CMARK_NODE_CODE_BLOCK) | (1 << CMARK_NODE_HTML_BLOCK) |
       (1 << CMARK_NODE_PARAGRAPH) | (1 << CMARK_NODE_HEADING) |
