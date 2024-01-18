@@ -86,7 +86,7 @@ static cmark_node *make_block(cmark_mem *mem, cmark_node_type tag,
 
 // Create a root document node.
 static cmark_node *make_document(cmark_mem *mem) {
-  cmark_node *e = make_block(mem, CMARK_NODE_DOCUMENT, 1, 1);
+  cmark_node *e = make_block(mem, CMARK_NODE_NO_OP, 1, 1);
   return e;
 }
 
@@ -157,7 +157,7 @@ static bool is_blank(cmark_strbuf *s, bufsize_t offset) {
 
 static inline bool can_contain(cmark_node_type parent_type,
                                cmark_node_type child_type) {
-  return (parent_type == CMARK_NODE_DOCUMENT ||
+  return (parent_type == CMARK_NODE_NO_OP ||
           parent_type == CMARK_NODE_BLOCK_QUOTE ||
           parent_type == CMARK_NODE_ITEM ||
           (parent_type == CMARK_NODE_LIST && child_type == CMARK_NODE_ITEM));
@@ -263,7 +263,7 @@ static cmark_node *finalize(cmark_parser *parser, cmark_node *b) {
     // end of input - line number has not been incremented
     b->end_line = parser->line_number;
     b->end_column = parser->last_line_length;
-  } else if (S_type(b) == CMARK_NODE_DOCUMENT ||
+  } else if (S_type(b) == CMARK_NODE_NO_OP ||
              (S_type(b) == CMARK_NODE_CODE_BLOCK && b->as.code.fenced) ||
              (S_type(b) == CMARK_NODE_HEADING && b->as.heading.setext)) {
     b->end_line = parser->line_number;

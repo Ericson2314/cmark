@@ -188,7 +188,7 @@ static int S_render_node(cmark_renderer *renderer, cmark_node *node,
   }
 
   switch (node->type) {
-  case CMARK_NODE_DOCUMENT:
+  case CMARK_NODE_NO_OP:
     break;
 
   case CMARK_NODE_BLOCK_QUOTE:

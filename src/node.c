@@ -40,7 +40,7 @@ static bool S_can_contain(cmark_node *node, cmark_node *child) {
   }
 
   switch (node->type) {
-  case CMARK_NODE_DOCUMENT:
+  case CMARK_NODE_NO_OP:
   case CMARK_NODE_BLOCK_QUOTE:
   case CMARK_NODE_ITEM:
     return S_is_block(child) && child->type != CMARK_NODE_ITEM;
@@ -159,7 +159,8 @@ const char *cmark_node_get_type_string(cmark_node *node) {
   switch (node->type) {
   case CMARK_NODE_NONE:
     return "none";
-  case CMARK_NODE_DOCUMENT:
+  case CMARK_NODE_NO_OP:
+    // TODO rename this?
     return "document";
   case CMARK_NODE_BLOCK_QUOTE:
     return "block_quote";

@@ -12,7 +12,7 @@
 #define UTF8_REPL "\xEF\xBF\xBD"
 
 static const cmark_node_type node_types[] = {
-    CMARK_NODE_DOCUMENT,  CMARK_NODE_BLOCK_QUOTE, CMARK_NODE_LIST,
+    CMARK_NODE_NO_OP,     CMARK_NODE_BLOCK_QUOTE, CMARK_NODE_LIST,
     CMARK_NODE_ITEM,      CMARK_NODE_CODE_BLOCK,  CMARK_NODE_HTML_BLOCK,
     CMARK_NODE_PARAGRAPH, CMARK_NODE_HEADING,     CMARK_NODE_THEMATIC_BREAK,
     CMARK_NODE_TEXT,      CMARK_NODE_SOFTBREAK,   CMARK_NODE_LINEBREAK,
@@ -260,7 +260,7 @@ static void free_parent(test_batch_runner *runner) {
 
 static void node_check(test_batch_runner *runner) {
   // Construct an incomplete tree.
-  cmark_node *doc = cmark_node_new(CMARK_NODE_DOCUMENT);
+  cmark_node *doc = cmark_node_new(CMARK_NODE_NO_OP);
   cmark_node *p1 = cmark_node_new(CMARK_NODE_PARAGRAPH);
   cmark_node *p2 = cmark_node_new(CMARK_NODE_PARAGRAPH);
   doc->first_child = p1;
@@ -329,7 +329,7 @@ static void iterator_delete(test_batch_runner *runner) {
 
 static void create_tree(test_batch_runner *runner) {
   char *html;
-  cmark_node *doc = cmark_node_new(CMARK_NODE_DOCUMENT);
+  cmark_node *doc = cmark_node_new(CMARK_NODE_NO_OP);
 
   cmark_node *p = cmark_node_new(CMARK_NODE_PARAGRAPH);
   OK(runner, !cmark_node_insert_before(doc, p), "insert before root fails");
@@ -404,7 +404,7 @@ static void create_tree(test_batch_runner *runner) {
 static void custom_nodes(test_batch_runner *runner) {
   char *html;
   char *man;
-  cmark_node *doc = cmark_node_new(CMARK_NODE_DOCUMENT);
+  cmark_node *doc = cmark_node_new(CMARK_NODE_NO_OP);
   cmark_node *p = cmark_node_new(CMARK_NODE_PARAGRAPH);
   cmark_node_append_child(doc, p);
   cmark_node *ci = cmark_node_new(CMARK_NODE_CUSTOM_INLINE);
@@ -456,7 +456,7 @@ void hierarchy(test_batch_runner *runner) {
 
   int list_item_flag = 1 << CMARK_NODE_ITEM;
   int top_level_blocks =
-      (1 << CMARK_NODE_DOCUMENT) |
+      (1 << CMARK_NODE_NO_OP) |
       (1 << CMARK_NODE_BLOCK_QUOTE) | (1 << CMARK_NODE_LIST) |
       (1 << CMARK_NODE_CODE_BLOCK) | (1 << CMARK_NODE_HTML_BLOCK) |
       (1 << CMARK_NODE_PARAGRAPH) | (1 << CMARK_NODE_HEADING) |
@@ -467,7 +467,7 @@ void hierarchy(test_batch_runner *runner) {
                     (1 << CMARK_NODE_STRONG) | (1 << CMARK_NODE_LINK) |
                     (1 << CMARK_NODE_IMAGE);
 
-  test_content(runner, CMARK_NODE_DOCUMENT, top_level_blocks);
+  test_content(runner, CMARK_NODE_NO_OP, top_level_blocks);
   test_content(runner, CMARK_NODE_BLOCK_QUOTE, top_level_blocks);
   test_content(runner, CMARK_NODE_LIST, list_item_flag);
   test_content(runner, CMARK_NODE_ITEM, top_level_blocks);
