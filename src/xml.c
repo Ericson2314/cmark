@@ -97,7 +97,13 @@ static int S_render_node(cmark_node *node, cmark_event_type ev_type,
   bool entering = (ev_type == CMARK_EVENT_ENTER);
   char buffer[BUFFER_SIZE];
 
-  if (entering) {
+  // Only the root no-op node gets rendered as an XML document note.
+  //
+  // Thus non-root (have parent) no-op nodes are not rendered, and every
+  // other type of node is rendered.
+  bool render_node = !(node->parent && node->type == CMARK_NODE_NO_OP);
+
+  if (render_node && entering) {
     indent(state);
     cmark_strbuf_putc(xml, '<');
     cmark_strbuf_puts(xml, cmark_node_get_type_string(node));
@@ -195,7 +201,7 @@ static int S_render_node(cmark_node *node, cmark_event_type ev_type,
     }
     cmark_strbuf_puts(xml, ">\n");
 
-  } else if (node->first_child) {
+  } else if (render_node && node->first_child) {
     state->indent -= 2;
     indent(state);
     cmark_strbuf_puts(xml, "</");
